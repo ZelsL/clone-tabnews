@@ -1,14 +1,17 @@
-import pg from "pg";
+import pg, { Client } from "pg";
 
 const { Pool } = pg;
-const pool = new Pool({
+
+const databaseCredentials = {
   host: process.env.POSTGRES_HOST,
   port: process.env.POSTGRES_PORT,
   user: process.env.POSTGRES_USER,
   database: process.env.POSTGRES_DB,
   password: process.env.POSTGRES_PASSWORD,
-  ssl: process.env.NODE_ENV === "development" ? false : true,
-});
+  ssl: process.env.NODE_ENV === "production" ? true : false,
+};
+
+const pool = new Pool(databaseCredentials);
 
 async function query(queryObject) {
   try {
@@ -20,6 +23,18 @@ async function query(queryObject) {
   }
 }
 
+async function end() {
+  await pool.end();
+}
+
+async function getNewClient() {
+  const client = new Client(databaseCredentials);
+  await client.connect();
+  return client;
+}
+
 export default {
-  query: query,
+  query,
+  end,
+  getNewClient,
 };
