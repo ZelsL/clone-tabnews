@@ -1,6 +1,4 @@
-import pg, { Client } from "pg";
-
-const { Pool } = pg;
+import { Client } from "pg";
 
 const databaseCredentials = {
   host: process.env.POSTGRES_HOST,
@@ -11,20 +9,19 @@ const databaseCredentials = {
   ssl: process.env.NODE_ENV === "production" ? true : false,
 };
 
-const pool = new Pool(databaseCredentials);
-
 async function query(queryObject) {
+  let client;
   try {
-    const res = await pool.query(queryObject);
+    client = new Client(databaseCredentials);
+    await client.connect();
+    const res = await client.query(queryObject);
     return res;
   } catch (err) {
     console.error("Error to consult database: ", err);
     throw err;
+  } finally {
+    await client.end();
   }
-}
-
-async function end() {
-  await pool.end();
 }
 
 async function getNewClient() {
@@ -35,6 +32,5 @@ async function getNewClient() {
 
 export default {
   query,
-  end,
   getNewClient,
 };
