@@ -5,6 +5,16 @@ import pluginJest from "eslint-plugin-jest";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
+  {
+    ignores: [
+      ".next/**",
+      "node_modules/**",
+      "out/**",
+      "build/**",
+      "coverage/**",
+    ],
+  },
+
   js.configs.recommended,
 
   pluginReact.configs.flat.recommended,
@@ -27,5 +37,6 @@ export default [
     },
     rules: {},
   },
+
   eslintConfigPrettier,
 ];
