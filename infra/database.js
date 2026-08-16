@@ -12,15 +12,15 @@ const databaseCredentials = {
 async function query(queryObject) {
   let client;
   try {
-    client = new Client(databaseCredentials);
-    await client.connect();
+    client = await getNewClient();
     const res = await client.query(queryObject);
     return res;
   } catch (err) {
+    console.log("\n Erro dentro do catch do database.js:");
     console.error("Error to consult database: ", err);
     throw err;
   } finally {
-    await client.end();
+    await client?.end();
   }
 }
 
