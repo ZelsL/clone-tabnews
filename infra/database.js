@@ -12,8 +12,7 @@ const databaseCredentials = {
 async function query(queryObject) {
   let client;
   try {
-    client = getNewClient();
-    await client.connect();
+    client = await getNewClient();
     const res = await client.query(queryObject);
     return res;
   } catch (err) {
