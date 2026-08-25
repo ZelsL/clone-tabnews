@@ -95,7 +95,7 @@ function extractUUID(text) {
 }
 
 async function activateUser(inactiveUser) {
-  await activation.activateUserByUserId(inactiveUser.id);
+  return await activation.activateUserByUserId(inactiveUser.id);
 }
 
 export default {
