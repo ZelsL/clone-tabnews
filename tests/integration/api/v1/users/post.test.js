@@ -10,7 +10,7 @@ beforeAll(async () => {
 });
 
 describe("POST /api/v1/users", () => {
-  describe("anonymous user", () => {
+  describe("Anonymous user", () => {
     test("With unique and valid data", async () => {
       const response = await fetch("http://localhost:3000/api/v1/users", {
         method: "POST",
@@ -121,6 +121,35 @@ describe("POST /api/v1/users", () => {
         message: "O username informado já está sendo utilizado.",
         action: "Utilize outro username para realizar esta operação.",
         status_code: 400,
+      });
+    });
+  });
+  describe("Default user", () => {
+    test("With unique and valid data", async () => {
+      const createUser = await orchestrator.createUser();
+      await orchestrator.activateUser(createUser);
+      const userSessionObject = await orchestrator.createSession(createUser.id);
+
+      const user2Response = await fetch("http://localhost:3000/api/v1/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: `session_id=${userSessionObject.token}`,
+        },
+        body: JSON.stringify({
+          username: "zels",
+          email: "zlszlszls19@gmail.com",
+          password: "senha123",
+        }),
+      });
+      expect(user2Response.status).toBe(403);
+
+      const user2ResponseBody = await user2Response.json();
+      expect(user2ResponseBody).toEqual({
+        name: "ForbiddenError",
+        action: 'Verifique se o seu usuário possui a feature "create:user"',
+        message: "Você não possui permissão para executar esta ação",
+        status_code: 403,
       });
     });
   });
