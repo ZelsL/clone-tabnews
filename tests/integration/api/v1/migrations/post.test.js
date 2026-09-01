@@ -9,7 +9,7 @@ beforeAll(async () => {
 
 describe("POST /api/v1/migrations", () => {
   describe("Anonymous user", () => {
-    test("Trying to run pending migrations", async () => {
+    test("Running pending migrations", async () => {
       const response = await fetch(`${webserver.origin}/api/v1/migrations`, {
         method: "POST",
       });
@@ -26,7 +26,7 @@ describe("POST /api/v1/migrations", () => {
     });
   });
   describe("Default user", () => {
-    test("Trying to run pending migrations", async () => {
+    test("Running pending migrations", async () => {
       const createdUser = await orchestrator.createUser();
       await orchestrator.activateUser(createdUser);
       const sessionObject = await orchestrator.createSession(createdUser.id);
@@ -52,7 +52,7 @@ describe("POST /api/v1/migrations", () => {
 });
 describe("Privileged user", () => {
   describe("With `run:migrations`", () => {
-    test("running pending migrations", async () => {
+    test("Running pending migrations", async () => {
       const privilegedUser = await orchestrator.createUser();
       await orchestrator.activateUser(privilegedUser);
       await orchestrator.addFeaturesToUser(privilegedUser, ["run:migrations"]);
