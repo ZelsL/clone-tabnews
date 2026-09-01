@@ -1,5 +1,6 @@
 import database from "infra/database.js";
 import orchestrator from "tests/orchestrator.js";
+import webserver from "infra/webserver.js";
 
 beforeAll(async () => {
   await orchestrator.waitForAllServices();
@@ -10,12 +11,9 @@ describe("DELETE, PUT, PATCH /api/v1/migrations", () => {
     test("Running pending migrations", async () => {
       const methods = ["DELETE", "PUT", "PATCH"];
       for (const method of methods) {
-        const response = await fetch(
-          "http://localhost:3000/api/v1/migrations",
-          {
-            method: method,
-          },
-        );
+        const response = await fetch(`${webserver.origin}/api/v1/migrations`, {
+          method: method,
+        });
         expect(response.status).toBe(405);
       }
       const databaseName = process.env.POSTGRES_DB;
