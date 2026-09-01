@@ -51,7 +51,7 @@ describe("Use case: Registration flow (all successful)", () => {
     const activationTokenObject =
       await activation.findOneValidByToken(activationTokenId);
 
-    expect(lastEmail.sender).toBe("<contato@clone-curso.dev>");
+    expect(lastEmail.sender).toBe("<onboarding@resend.dev>");
     expect(lastEmail.recipients[0]).toBe("<registration.flow@curso.dev>");
     expect(lastEmail.subject).toBe("Ative seu cadastro no clone curso.dev!");
     expect(lastEmail.text).toContain("RegistrationFlow");

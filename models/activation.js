@@ -140,7 +140,7 @@ async function activateUserByUserId(userId) {
 
 async function sendEmailToUser(user, activationToken) {
   await email.send({
-    from: "Clone Curso.dev <contato@clone-curso.dev>",
+    from: "Clone curso.dev <onboarding@resend.dev>",
     to: user.email,
     subject: "Ative seu cadastro no clone curso.dev!",
     text: `${user.username}, clique no link abaixo para ativar o seu cadastro no Clone Curso.dev:
