@@ -86,6 +86,7 @@ describe("GET /api/v1/user", () => {
         value: sessionObject.token,
         maxAge: session.EXPIRATION_IN_MILISECONDS / 1000,
         path: "/",
+        sameSite: "Lax",
         httpOnly: true,
       });
     });
@@ -95,7 +96,7 @@ describe("GET /api/v1/user", () => {
 
       const response = await fetch(`${webserver.origin}/api/v1/user`, {
         headers: {
-          Cookie: `session_id=${nonexistentToken.token}`,
+          Cookie: `session_id=${nonexistentToken}`,
         },
       });
 
@@ -229,6 +230,7 @@ describe("GET /api/v1/user", () => {
         maxAge: session.EXPIRATION_IN_MILISECONDS / 1000,
         path: "/",
         httpOnly: true,
+        sameSite: "Lax",
       });
     });
   });
