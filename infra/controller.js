@@ -114,7 +114,7 @@ function canRequest(feature) {
   };
 }
 
-export default {
+const controller = {
   errorHandlers: {
     onNoMatch: onNoMatchHandler,
     onError: onErrorHandler,
@@ -124,3 +124,5 @@ export default {
   injectAnonymousOrUser,
   canRequest,
 };
+
+export default controller;

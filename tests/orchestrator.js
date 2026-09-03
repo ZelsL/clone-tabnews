@@ -104,7 +104,7 @@ async function addFeaturesToUser(userObject, features) {
   return updatedUser;
 }
 
-export default {
+const orchestrator = {
   waitForAllServices,
   clearDatabase,
   runPendingMigrations,
@@ -116,3 +116,5 @@ export default {
   activateUser,
   addFeaturesToUser,
 };
+
+export default orchestrator;
