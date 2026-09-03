@@ -1,6 +1,6 @@
 import retry from "async-retry";
 import { faker } from "@faker-js/faker";
-
+import webserver from "infra/webserver.js";
 import database from "infra/database.js";
 import migrator from "models/migrator.js";
 import user from "models/user.js";
@@ -20,7 +20,7 @@ async function waitForAllServices() {
     });
 
     async function fetchStatuspage() {
-      const response = await fetch("http://localhost:3000/api/v1/status");
+      const response = await fetch(`${webserver.origin}/api/v1/status`);
       if (response.status !== 200) {
         throw new Error();
       }
@@ -58,8 +58,8 @@ async function createUser(userObject) {
   });
 }
 
-async function createSession(userId) {
-  return await session.create(userId);
+async function createSession(userObject) {
+  return await session.create(userObject.id);
 }
 
 async function deleteAllEmails() {
@@ -104,7 +104,7 @@ async function addFeaturesToUser(userObject, features) {
   return updatedUser;
 }
 
-export default {
+const orchestrator = {
   waitForAllServices,
   clearDatabase,
   runPendingMigrations,
@@ -116,3 +116,5 @@ export default {
   activateUser,
   addFeaturesToUser,
 };
+
+export default orchestrator;

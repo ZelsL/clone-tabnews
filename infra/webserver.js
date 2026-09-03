@@ -1,4 +1,4 @@
-function getOrigin() {
+function getHost() {
   if (["test", "development"].includes(process.env.NODE_ENV)) {
     return "http://localhost:3000";
   }
@@ -7,11 +7,11 @@ function getOrigin() {
     return `https://${process.env.VERCEL_URL}`;
   }
 
-  return "clone-tabnews-zels.vercel.app";
+  return "https://clone-tabnews-zels.vercel.app";
 }
 
 const webserver = {
-  origin: getOrigin(),
+  origin: getHost(),
 };
 
 export default webserver;
